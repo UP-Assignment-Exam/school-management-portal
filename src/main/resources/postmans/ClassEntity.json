@@ -1,0 +1,339 @@
+{
+  "info": {
+    "name": "ClassEntity CRUD API",
+    "description": "Complete CRUD operations for ClassEntity with Spring Boot REST API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Classes Management",
+      "item": [
+        {
+          "name": "1. Get All Classes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            },
+            "description": "Retrieve all active (non-deleted) classes"
+          },
+          "response": []
+        },
+        {
+          "name": "2. Get Classes with Search",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes?search=Java",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Java",
+                  "description": "Search classes by name"
+                }
+              ]
+            },
+            "description": "Search classes by name containing the search term"
+          },
+          "response": []
+        },
+        {
+          "name": "3. Get Classes with Available Spots",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes?availableOnly=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"],
+              "query": [
+                {
+                  "key": "availableOnly",
+                  "value": "true",
+                  "description": "Filter classes with available spots"
+                }
+              ]
+            },
+            "description": "Get only classes that have available spots for new students"
+          },
+          "response": []
+        },
+        {
+          "name": "4. Get Class by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes", "1"]
+            },
+            "description": "Retrieve a specific class by its ID"
+          },
+          "response": []
+        },
+        {
+          "name": "5. Create New Class - Java Programming",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Java Programming Fundamentals\",\n  \"description\": \"Learn the basics of Java programming including OOP concepts, data structures, and algorithms. Perfect for beginners wanting to start their programming journey.\",\n  \"startDate\": \"2024-09-01\",\n  \"endDate\": \"2024-12-15\",\n  \"maxStudents\": 25,\n  \"teacher\": {\n    \"id\": 1\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            },
+            "description": "Create a new Java Programming class"
+          },
+          "response": []
+        },
+        {
+          "name": "6. Create New Class - Web Development",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Full Stack Web Development\",\n  \"description\": \"Comprehensive course covering HTML, CSS, JavaScript, React, Node.js, and database management. Build real-world web applications from frontend to backend.\",\n  \"startDate\": \"2024-10-01\",\n  \"endDate\": \"2024-12-31\",\n  \"maxStudents\": 20,\n  \"teacher\": {\n    \"id\": 2\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            },
+            "description": "Create a new Web Development class"
+          },
+          "response": []
+        },
+        {
+          "name": "7. Create New Class - Data Science",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Data Science & Analytics\",\n  \"description\": \"Master data science with Python, pandas, numpy, matplotlib, and machine learning. Includes hands-on projects with real datasets and statistical analysis.\",\n  \"startDate\": \"2024-11-01\",\n  \"endDate\": \"2025-02-28\",\n  \"maxStudents\": 15,\n  \"teacher\": {\n    \"id\": 3\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            },
+            "description": "Create a new Data Science class"
+          },
+          "response": []
+        },
+        {
+          "name": "8. Create New Class - Mobile Development",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mobile App Development\",\n  \"description\": \"Learn to build native and cross-platform mobile applications using React Native and Flutter. Cover iOS and Android development with hands-on projects.\",\n  \"startDate\": \"2024-09-15\",\n  \"endDate\": \"2024-12-20\",\n  \"maxStudents\": 18,\n  \"teacher\": {\n    \"id\": 4\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            },
+            "description": "Create a new Mobile Development class"
+          },
+          "response": []
+        },
+        {
+          "name": "9. Create New Class - Cybersecurity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Cybersecurity Fundamentals\",\n  \"description\": \"Essential cybersecurity concepts including network security, ethical hacking, penetration testing, and security compliance. Hands-on labs with industry tools.\",\n  \"startDate\": \"2024-10-15\",\n  \"endDate\": \"2025-01-15\",\n  \"maxStudents\": 12,\n  \"teacher\": {\n    \"id\": 5\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            },
+            "description": "Create a new Cybersecurity class"
+          },
+          "response": []
+        },
+        {
+          "name": "10. Update Class",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Advanced Java Programming\",\n  \"description\": \"Advanced Java concepts including Spring Framework, Hibernate, microservices, and enterprise application development. Updated curriculum with latest Java features.\",\n  \"startDate\": \"2024-09-01\",\n  \"endDate\": \"2024-12-15\",\n  \"maxStudents\": 30,\n  \"teacher\": {\n    \"id\": 1\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes", "1"]
+            },
+            "description": "Update an existing class (replace '1' with actual class ID)"
+          },
+          "response": []
+        },
+        {
+          "name": "11. Delete Class (Soft Delete)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes", "1"]
+            },
+            "description": "Soft delete a class (replace '1' with actual class ID)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Additional Endpoints",
+      "item": [
+        {
+          "name": "12. Get Classes by Teacher",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes/teacher/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes", "teacher", "1"]
+            },
+            "description": "Get all classes assigned to a specific teacher"
+          },
+          "response": []
+        },
+        {
+          "name": "13. Get Class Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes", "stats"]
+            },
+            "description": "Get statistics about classes (total active, available spots, etc.)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Test Data Creation",
+      "item": [
+        {
+          "name": "Create Sample Teachers (Prerequisite)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"name\": \"Dr. Sarah Johnson\",\n    \"email\": \"sarah.johnson@example.com\",\n    \"specialization\": \"Java & Spring Framework\"\n  },\n  {\n    \"name\": \"Prof. Michael Chen\",\n    \"email\": \"michael.chen@example.com\",\n    \"specialization\": \"Web Development & JavaScript\"\n  },\n  {\n    \"name\": \"Dr. Emily Rodriguez\",\n    \"email\": \"emily.rodriguez@example.com\",\n    \"specialization\": \"Data Science & Machine Learning\"\n  },\n  {\n    \"name\": \"Mr. David Kim\",\n    \"email\": \"david.kim@example.com\",\n    \"specialization\": \"Mobile App Development\"\n  },\n  {\n    \"name\": \"Dr. Lisa Thompson\",\n    \"email\": \"lisa.thompson@example.com\",\n    \"specialization\": \"Cybersecurity & Ethical Hacking\"\n  }\n]"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/teachers/batch",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "teachers", "batch"]
+            },
+            "description": "Create sample teachers first (this endpoint might need to be implemented in your Teacher API)"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

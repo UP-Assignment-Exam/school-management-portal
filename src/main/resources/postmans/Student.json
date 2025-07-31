@@ -1,0 +1,246 @@
+{
+  "info": {
+    "name": "Student Management API",
+    "description": "Complete CRUD API for Student Management System with Spring Boot",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "📚 Get All Students",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students"]
+        },
+        "description": "Retrieve all non-deleted students"
+      },
+      "response": []
+    },
+    {
+      "name": "👤 Get Student by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students", "1"]
+        },
+        "description": "Get a specific student by ID (only if not deleted)"
+      },
+      "response": []
+    },
+    {
+      "name": "✅ Get Active Students Only",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students/active",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students", "active"]
+        },
+        "description": "Get only active students (isActive = true and isDeleted = false)"
+      },
+      "response": []
+    },
+    {
+      "name": "🔍 Search Students by Name",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students/search?q=John",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students", "search"],
+          "query": [
+            {
+              "key": "q",
+              "value": "John",
+              "description": "Search term for first or last name"
+            }
+          ]
+        },
+        "description": "Search students by first name or last name (case-insensitive)"
+      },
+      "response": []
+    },
+    {
+      "name": "➕ Create New Student - John Doe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@email.com\",\n  \"dateOfBirth\": \"2000-05-15\",\n  \"gender\": \"Male\",\n  \"address\": \"123 Main Street, New York, NY 10001\",\n  \"enrollmentDate\": \"2024-01-15\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/students",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students"]
+        },
+        "description": "Create a new student with sample data"
+      },
+      "response": []
+    },
+    {
+      "name": "➕ Create New Student - Jane Smith",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Smith\",\n  \"email\": \"jane.smith@email.com\",\n  \"dateOfBirth\": \"1999-08-22\",\n  \"gender\": \"Female\",\n  \"address\": \"456 Oak Avenue, Los Angeles, CA 90210\",\n  \"enrollmentDate\": \"2024-02-01\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1494790108755-2616b612d8b8?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/students",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students"]
+        },
+        "description": "Create another student for testing"
+      },
+      "response": []
+    },
+    {
+      "name": "➕ Create New Student - Michael Johnson",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Michael\",\n  \"lastName\": \"Johnson\",\n  \"email\": \"michael.johnson@email.com\",\n  \"dateOfBirth\": \"2001-03-10\",\n  \"gender\": \"Male\",\n  \"address\": \"789 Pine Street, Chicago, IL 60601\",\n  \"enrollmentDate\": \"2024-01-20\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/students",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students"]
+        },
+        "description": "Create third student"
+      },
+      "response": []
+    },
+    {
+      "name": "➕ Create New Student - Emily Davis",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Emily\",\n  \"lastName\": \"Davis\",\n  \"email\": \"emily.davis@email.com\",\n  \"dateOfBirth\": \"2000-11-07\",\n  \"gender\": \"Female\",\n  \"address\": \"321 Elm Drive, Miami, FL 33101\",\n  \"enrollmentDate\": \"2024-03-01\",\n  \"isActive\": false,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/students",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students"]
+        },
+        "description": "Create fourth student (inactive for testing)"
+      },
+      "response": []
+    },
+    {
+      "name": "➕ Create New Student - Alex Wilson",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Alex\",\n  \"lastName\": \"Wilson\",\n  \"email\": \"alex.wilson@email.com\",\n  \"dateOfBirth\": \"1998-12-25\",\n  \"gender\": \"Other\",\n  \"address\": \"654 Maple Lane, Seattle, WA 98101\",\n  \"enrollmentDate\": \"2023-09-15\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/students",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students"]
+        },
+        "description": "Create fifth student"
+      },
+      "response": []
+    },
+    {
+      "name": "✏️ Update Student",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe Updated\",\n  \"email\": \"john.doe.updated@email.com\",\n  \"dateOfBirth\": \"2000-05-15\",\n  \"gender\": \"Male\",\n  \"address\": \"123 Main Street Updated, New York, NY 10001\",\n  \"enrollmentDate\": \"2024-01-15\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/students/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students", "1"]
+        },
+        "description": "Update an existing student (change ID to match created student)"
+      },
+      "response": []
+    },
+    {
+      "name": "🔄 Toggle Student Status",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students/1/toggle-status",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students", "1", "toggle-status"]
+        },
+        "description": "Toggle student active/inactive status"
+      },
+      "response": []
+    },
+    {
+      "name": "🗑️ Delete Student (Soft Delete)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students", "1"]
+        },
+        "description": "Soft delete a student (marks isDeleted = true)"
+      },
+      "response": []
+    }
+  ]
+}

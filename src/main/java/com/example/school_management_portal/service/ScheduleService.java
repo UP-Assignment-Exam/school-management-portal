@@ -3,7 +3,7 @@ package com.example.school_management_portal.service;
 import com.example.school_management_portal.dto.ScheduleDTO;
 import com.example.school_management_portal.entity.ClassEntity;
 import com.example.school_management_portal.entity.Schedule;
-import com.example.school_management_portal.repository.ClassRepository;
+import com.example.school_management_portal.repository.ClassEntityRepository;
 import com.example.school_management_portal.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class ScheduleService {
     private ScheduleRepository scheduleRepository;
 
     @Autowired
-    private ClassRepository classRepository;
+    private ClassEntityRepository classRepository;
 
     /**
      * Get all non-deleted schedules

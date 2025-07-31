@@ -1,0 +1,399 @@
+{
+  "info": {
+    "name": "Teacher Management API",
+    "description": "Complete CRUD operations for Teacher entity with soft delete functionality",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Get All Teachers",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers"]
+        },
+        "description": "Retrieves all active teachers (excludes soft-deleted records)"
+      },
+      "response": []
+    },
+    {
+      "name": "2. Get Teacher by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers", "1"]
+        },
+        "description": "Retrieves a specific teacher by ID (only if not soft-deleted)"
+      },
+      "response": []
+    },
+    {
+      "name": "3. Create Teacher - John Smith",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Smith\",\n  \"email\": \"john.smith@school.edu\",\n  \"phoneNumber\": \"+1-555-0101\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers"]
+        },
+        "description": "Creates a new teacher - Math & Science Teacher"
+      },
+      "response": []
+    },
+    {
+      "name": "4. Create Teacher - Sarah Johnson",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Johnson\",\n  \"email\": \"sarah.johnson@school.edu\",\n  \"phoneNumber\": \"+1-555-0102\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1494790108755-2616b612b765?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers"]
+        },
+        "description": "Creates a new teacher - English Literature Teacher"
+      },
+      "response": []
+    },
+    {
+      "name": "5. Create Teacher - Michael Brown",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Michael\",\n  \"lastName\": \"Brown\",\n  \"email\": \"michael.brown@school.edu\",\n  \"phoneNumber\": \"+1-555-0103\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers"]
+        },
+        "description": "Creates a new teacher - History & Social Studies Teacher"
+      },
+      "response": []
+    },
+    {
+      "name": "6. Create Teacher - Emily Davis",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Emily\",\n  \"lastName\": \"Davis\",\n  \"email\": \"emily.davis@school.edu\",\n  \"phoneNumber\": \"+1-555-0104\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers"]
+        },
+        "description": "Creates a new teacher - Art & Music Teacher"
+      },
+      "response": []
+    },
+    {
+      "name": "7. Create Teacher - Robert Wilson",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Robert\",\n  \"lastName\": \"Wilson\",\n  \"email\": \"robert.wilson@school.edu\",\n  \"phoneNumber\": \"+1-555-0105\",\n  \"isActive\": false,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers"]
+        },
+        "description": "Creates a new teacher - Physical Education Teacher (Inactive)"
+      },
+      "response": []
+    },
+    {
+      "name": "8. Update Teacher",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Smith\",\n  \"email\": \"john.smith.updated@school.edu\",\n  \"phoneNumber\": \"+1-555-0199\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers/1",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers", "1"]
+        },
+        "description": "Updates an existing teacher's information"
+      },
+      "response": []
+    },
+    {
+      "name": "9. Get Active Teachers Only",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers/active",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers", "active"]
+        },
+        "description": "Retrieves only active teachers (isActive = true and not soft-deleted)"
+      },
+      "response": []
+    },
+    {
+      "name": "10. Search Teachers",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers/search?query=john",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers", "search"],
+          "query": [
+            {
+              "key": "query",
+              "value": "john",
+              "description": "Search term for firstName, lastName, or email"
+            }
+          ]
+        },
+        "description": "Searches teachers by name or email (case-insensitive)"
+      },
+      "response": []
+    },
+    {
+      "name": "11. Search Teachers by Email",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers/search?query=@school.edu",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers", "search"],
+          "query": [
+            {
+              "key": "query",
+              "value": "@school.edu",
+              "description": "Search by email domain"
+            }
+          ]
+        },
+        "description": "Searches teachers by email domain"
+      },
+      "response": []
+    },
+    {
+      "name": "12. Soft Delete Teacher",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers/5",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers", "5"]
+        },
+        "description": "Soft deletes a teacher (sets isDeleted = true). Teacher will no longer appear in queries."
+      },
+      "response": []
+    },
+    {
+      "name": "13. Try to Get Deleted Teacher",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers/5",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers", "5"]
+        },
+        "description": "Attempts to get a soft-deleted teacher (should return 404 Not Found)"
+      },
+      "response": []
+    },
+    {
+      "name": "14. Create Teacher with Duplicate Email (Error Test)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Duplicate\",\n  \"email\": \"john.smith@school.edu\",\n  \"phoneNumber\": \"+1-555-9999\",\n  \"isActive\": true,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers"]
+        },
+        "description": "Tries to create a teacher with duplicate email (should return 409 Conflict)"
+      },
+      "response": []
+    },
+    {
+      "name": "15. Create Teacher with Invalid Data (Validation Test)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"\",\n  \"lastName\": \"\",\n  \"email\": \"invalid-email\",\n  \"phoneNumber\": \"this-is-way-too-long-for-phone-number-field\",\n  \"isActive\": true,\n  \"imageUrl\": \"not-a-valid-url\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers"]
+        },
+        "description": "Tries to create a teacher with invalid data (should return 400 Bad Request with validation errors)"
+      },
+      "response": []
+    },
+    {
+      "name": "16. Get Non-Existent Teacher",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/teachers/9999",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "teachers", "9999"]
+        },
+        "description": "Tries to get a non-existent teacher (should return 404 Not Found)"
+      },
+      "response": []
+    }
+  ]
+}

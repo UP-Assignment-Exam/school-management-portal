@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Management</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    .teacher-avatar {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .status-badge {
+        font-size: 0.75rem;
+    }
+    .table-actions {
+        white-space: nowrap;
+    }
+    .search-box {
+        max-width: 300px;
+    }
+    .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+    }
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    }
+    .modal-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    .loading-spinner {
+        display: none;
+    }
+  </style>
+</head>
+<body class="bg-light">
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col">
+              <h4 class="mb-0">
+                <i class="fas fa-chalkboard-teacher me-2"></i>
+                Teacher Management
+              </h4>
+            </div>
+            <div class="col-auto">
+              <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#teacherModal" onclick="openAddModal()">
+                <i class="fas fa-plus me-1"></i>Add Teacher
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Search and Filter -->
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="input-group search-box">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search teachers...">
+                <button class="btn btn-outline-secondary" type="button" onclick="searchTeachers()">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6 text-end">
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary active" onclick="showAll()">All</button>
+                <button type="button" class="btn btn-outline-primary" onclick="showActive()">Active Only</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loading Spinner -->
+          <div class="text-center loading-spinner" id="loadingSpinner">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <!-- Teachers Table -->
+          <div class="table-responsive">
+            <table class="table table-hover" id="teachersTable">
+              <thead class="table-dark">
+              <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody id="teachersTableBody">
+              <!-- Teachers will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty State -->
+          <div class="text-center py-5 d-none" id="emptyState">
+            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No teachers found</h5>
+            <p class="text-muted">Click "Add Teacher" to create your first teacher.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Teacher Modal -->
+<div class="modal fade" id="teacherModal" tabindex="-1" aria-labelledby="teacherModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="teacherModalLabel">Add Teacher</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="teacherForm">
+          <input type="hidden" id="teacherId">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="firstName" class="form-label">First Name *</label>
+                <input type="text" class="form-control" id="firstName" required maxlength="50">
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name *</label>
+                <input type="text" class="form-control" id="lastName" required maxlength="50">
+                <div class="invalid-feedback"></div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email *</label>
+            <input type="email" class="form-control" id="email" required maxlength="100">
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="phoneNumber" maxlength="15">
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <label for="imageUrl" class="form-label">Image URL</label>
+            <input type="url" class="form-control" id="imageUrl" maxlength="255">
+            <div class="invalid-feedback"></div>
+          </div>
+          <div class="mb-3">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="isActive" checked>
+              <label class="form-check-label" for="isActive">
+                Active Teacher
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="saveTeacher()">
+          <span class="spinner-border spinner-border-sm d-none" id="saveSpinner"></span>
+          Save Teacher
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete <strong id="deleteTeacherName"></strong>?</p>
+        <p class="text-muted small">This action will soft-delete the teacher and cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+          <span class="spinner-border spinner-border-sm d-none" id="deleteSpinner"></span>
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast for notifications -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <i class="fas fa-info-circle text-primary me-2"></i>
+      <strong class="me-auto" id="toastTitle">Notification</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+    </div>
+    <div class="toast-body" id="toastBody">
+      <!-- Toast message -->
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Global variables
+  let teachers = [];
+  let currentTeacherId = null;
+  let isEditMode = false;
+
+  // Initialize page
+  document.addEventListener('DOMContentLoaded', function() {
+      loadTeachers();
+
+      // Add enter key listener for search
+      document.getElementById('searchInput').addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+              searchTeachers();
+          }
+      });
+  });
+
+  // Load all teachers
+  async function loadTeachers() {
+      try {
+          showLoading(true);
+          const response = await fetch('/api/teachers');
+          if (response.ok) {
+              teachers = await response.json();
+              displayTeachers(teachers);
+          } else {
+              showToast('Error', 'Failed to load teachers', 'error');
+          }
+      } catch (error) {
+          console.error('Error loading teachers:', error);
+          showToast('Error', 'Failed to load teachers', 'error');
+      } finally {
+          showLoading(false);
+      }
+  }
+
+  // Display teachers in table
+  function displayTeachers(teacherList) {
+      const tbody = document.getElementById('teachersTableBody');
+      const emptyState = document.getElementById('emptyState');
+
+      if (teacherList.length === 0) {
+          tbody.innerHTML = '';
+          emptyState.classList.remove('d-none');
+          return;
+      }
+
+      emptyState.classList.add('d-none');
+
+      tbody.innerHTML = teacherList.map(teacher => `
+          <tr>
+              <td>
+                  <img src="${teacher.imageUrl || '/images/default-avatar.png'}"
+                       alt="Teacher Photo"
+                       class="teacher-avatar"
+                       onerror="this.src='/images/default-avatar.png'">
+              </td>
+              <td>
+                  <div>
+                      <strong>${teacher.firstName} ${teacher.lastName}</strong>
+                  </div>
+              </td>
+              <td>${teacher.email}</td>
+              <td>${teacher.phoneNumber || '-'}</td>
+              <td>
+                  <span class="badge ${teacher.active ? 'bg-success' : 'bg-secondary'} status-badge">
+                      ${teacher.active ? 'Active' : 'Inactive'}
+                  </span>
+              </td>
+              <td>${formatDate(teacher.createdAt)}</td>
+              <td class="table-actions">
+                  <button class="btn btn-sm btn-outline-primary me-1" onclick="openEditModal(${teacher.id})" title="Edit">
+                      <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal(${teacher.id}, '${teacher.firstName} ${teacher.lastName}')" title="Delete">
+                      <i class="fas fa-trash"></i>
+                  </button>
+              </td>
+          </tr>
+      `).join('');
+  }
+
+  // Show/hide loading spinner
+  function showLoading(show) {
+      const spinner = document.getElementById('loadingSpinner');
+      if (show) {
+          spinner.style.display = 'block';
+      } else {
+          spinner.style.display = 'none';
+      }
+  }
+
+  // Open add modal
+  function openAddModal() {
+      isEditMode = false;
+      currentTeacherId = null;
+      document.getElementById('teacherModalLabel').textContent = 'Add Teacher';
+      document.getElementById('teacherForm').reset();
+      document.getElementById('teacherId').value = '';
+      document.getElementById('isActive').checked = true;
+      clearValidation();
+  }
+
+  // Open edit modal
+  async function openEditModal(teacherId) {
+      try {
+          const response = await fetch(`/api/teachers/${teacherId}`);
+          if (response.ok) {
+              const teacher = await response.json();
+              isEditMode = true;
+              currentTeacherId = teacherId;
+              document.getElementById('teacherModalLabel').textContent = 'Edit Teacher';
+
+              // Populate form
+              document.getElementById('teacherId').value = teacher.id;
+              document.getElementById('firstName').value = teacher.firstName;
+              document.getElementById('lastName').value = teacher.lastName;
+              document.getElementById('email').value = teacher.email;
+              document.getElementById('phoneNumber').value = teacher.phoneNumber || '';
+              document.getElementById('imageUrl').value = teacher.imageUrl || '';
+              document.getElementById('isActive').checked = teacher.active;
+
+              clearValidation();
+              new bootstrap.Modal(document.getElementById('teacherModal')).show();
+          } else {
+              showToast('Error', 'Failed to load teacher details', 'error');
+          }
+      } catch (error) {
+          console.error('Error loading teacher:', error);
+          showToast('Error', 'Failed to load teacher details', 'error');
+      }
+  }
+
+  // Save teacher
+  async function saveTeacher() {
+      const form = document.getElementById('teacherForm');
+      if (!form.checkValidity()) {
+          form.classList.add('was-validated');
+          return;
+      }
+
+      const saveButton = document.querySelector('#teacherModal .btn-primary');
+      const saveSpinner = document.getElementById('saveSpinner');
+
+      try {
+          saveSpinner.classList.remove('d-none');
+          saveButton.disabled = true;
+
+          const teacherData = {
+              firstName: document.getElementById('firstName').value.trim(),
+              lastName: document.getElementById('lastName').value.trim(),
+              email: document.getElementById('email').value.trim(),
+              phoneNumber: document.getElementById('phoneNumber').value.trim(),
+              imageUrl: document.getElementById('imageUrl').value.trim(),
+              active: document.getElementById('isActive').checked
+          };
+
+          const url = isEditMode ? `/api/teachers/${currentTeacherId}` : '/api/teachers';
+          const method = isEditMode ? 'PUT' : 'POST';
+
+          const response = await fetch(url, {
+              method: method,
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(teacherData)
+          });
+
+          if (response.ok) {
+              bootstrap.Modal.getInstance(document.getElementById('teacherModal')).hide();
+              loadTeachers();
+              showToast('Success', `Teacher ${isEditMode ? 'updated' : 'created'} successfully`, 'success');
+          } else if (response.status === 409) {
+              showValidationError('email', 'Email already exists');
+          } else {
+              showToast('Error', `Failed to ${isEditMode ? 'update' : 'create'} teacher`, 'error');
+          }
+      } catch (error) {
+          console.error('Error saving teacher:', error);
+          showToast('Error', `Failed to ${isEditMode ? 'update' : 'create'} teacher`, 'error');
+      } finally {
+          saveSpinner.classList.add('d-none');
+          saveButton.disabled = false;
+      }
+  }
+
+  // Open delete modal
+  function openDeleteModal(teacherId, teacherName) {
+      currentTeacherId = teacherId;
+      document.getElementById('deleteTeacherName').textContent = teacherName;
+      new bootstrap.Modal(document.getElementById('deleteModal')).show();
+  }
+
+  // Confirm delete
+  async function confirmDelete() {
+      const deleteButton = document.querySelector('#deleteModal .btn-danger');
+      const deleteSpinner = document.getElementById('deleteSpinner');
+
+      try {
+          deleteSpinner.classList.remove('d-none');
+          deleteButton.disabled = true;
+
+          const response = await fetch(`/api/teachers/${currentTeacherId}`, {
+              method: 'DELETE'
+          });
+
+          if (response.ok) {
+              bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
+              loadTeachers();
+              showToast('Success', 'Teacher deleted successfully', 'success');
+          } else {
+              showToast('Error', 'Failed to delete teacher', 'error');
+          }
+      } catch (error) {
+          console.error('Error deleting teacher:', error);
+          showToast('Error', 'Failed to delete teacher', 'error');
+      } finally {
+          deleteSpinner.classList.add('d-none');
+          deleteButton.disabled = false;
+      }
+  }
+
+  // Search teachers
+  async function searchTeachers() {
+      const query = document.getElementById('searchInput').value.trim();
+
+      if (query === '') {
+          displayTeachers(teachers);
+          return;
+      }
+
+      try {
+          showLoading(true);
+          const response = await fetch(`/api/teachers/search?query=${encodeURIComponent(query)}`);
+          if (response.ok) {
+              const searchResults = await response.json();
+              displayTeachers(searchResults);
+          } else {
+              showToast('Error', 'Failed to search teachers', 'error');
+          }
+      } catch (error) {
+          console.error('Error searching teachers:', error);
+          showToast('Error', 'Failed to search teachers', 'error');
+      } finally {
+          showLoading(false);
+      }
+  }
+
+  // Show all teachers
+  function showAll() {
+      document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      displayTeachers(teachers);
+  }
+
+  // Show active teachers only
+  async function showActive() {
+      document.querySelectorAll('.btn-group .btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      try {
+          showLoading(true);
+          const response = await fetch('/api/teachers/active');
+          if (response.ok) {
+              const activeTeachers = await response.json();
+              displayTeachers(activeTeachers);
+          } else {
+              showToast('Error', 'Failed to load active teachers', 'error');
+          }
+      } catch (error) {
+          console.error('Error loading active teachers:', error);
+          showToast('Error', 'Failed to load active teachers', 'error');
+      } finally {
+          showLoading(false);
+      }
+  }
+
+  // Show validation error
+  function showValidationError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      const feedback = field.nextElementSibling;
+      field.classList.add('is-invalid');
+      feedback.textContent = message;
+  }
+
+  // Clear validation
+  function clearValidation() {
+      document.getElementById('teacherForm').classList.remove('was-validated');
+      document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+      document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+  }
+
+  // Show toast notification
+  function showToast(title, message, type = 'info') {
+      const toast = document.getElementById('toast');
+      const toastTitle = document.getElementById('toastTitle');
+      const toastBody = document.getElementById('toastBody');
+      const toastHeader = toast.querySelector('.toast-header');
+
+      // Set icon and color based on type
+      let icon = 'fas fa-info-circle text-primary';
+      let headerClass = '';
+
+      switch (type) {
+          case 'success':
+              icon = 'fas fa-check-circle text-success';
+              headerClass = 'bg-success text-white';
+              break;
+          case 'error':
+              icon = 'fas fa-exclamation-circle text-danger';
+              headerClass = 'bg-danger text-white';
+              break;
+          case 'warning':
+              icon = 'fas fa-exclamation-triangle text-warning';
+              headerClass = 'bg-warning';
+              break;
+      }
+
+      // Update toast content
+      toastHeader.className = `toast-header ${headerClass}`;
+      toastHeader.querySelector('i').className = icon;
+      toastTitle.textContent = title;
+      toastBody.textContent = message;
+
+      // Show toast
+      new bootstrap.Toast(toast).show();
+  }
+
+  // Format date
+  function formatDate(dateString) {
+      if (!dateString) return '-';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+      });
+  }
+
+  // Form validation on input
+  document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('teacherForm');
+      const inputs = form.querySelectorAll('input[required]');
+
+      inputs.forEach(input => {
+          input.addEventListener('input', function() {
+              if (this.value.trim() !== '') {
+                  this.classList.remove('is-invalid');
+                  this.nextElementSibling.textContent = '';
+              }
+          });
+      });
+
+      // Email validation
+      document.getElementById('email').addEventListener('input', function() {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (this.value && !emailRegex.test(this.value)) {
+              this.classList.add('is-invalid');
+              this.nextElementSibling.textContent = 'Please enter a valid email address';
+          } else if (this.value) {
+              this.classList.remove('is-invalid');
+              this.nextElementSibling.textContent = '';
+          }
+      });
+
+      // Phone number validation (basic)
+      document.getElementById('phoneNumber').addEventListener('input', function() {
+          if (this.value && this.value.length > 15) {
+              this.classList.add('is-invalid');
+              this.nextElementSibling.textContent = 'Phone number must not exceed 15 characters';
+          } else {
+              this.classList.remove('is-invalid');
+              this.nextElementSibling.textContent = '';
+          }
+      });
+  });
+
+  // Clear search on escape key
+  document.getElementById('searchInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+          this.value = '';
+          displayTeachers(teachers);
+      }
+  });
+
+  // Auto-refresh every 30 seconds (optional)
+  setInterval(function() {
+      if (!document.querySelector('.modal.show')) {
+          loadTeachers();
+      }
+  }, 30000);
+</script>
+</body>
+</html>

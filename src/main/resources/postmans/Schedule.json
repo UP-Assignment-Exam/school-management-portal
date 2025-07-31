@@ -1,0 +1,366 @@
+{
+  "info": {
+    "name": "Schedule Management API",
+    "description": "Complete CRUD API collection for Schedule entity with sample data",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Classes API (Prerequisites)",
+      "item": [
+        {
+          "name": "Create Class - Mathematics",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mathematics\",\n  \"description\": \"Advanced Mathematics Course\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            }
+          }
+        },
+        {
+          "name": "Create Class - Physics",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Physics\",\n  \"description\": \"General Physics Course\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            }
+          }
+        },
+        {
+          "name": "Create Class - Chemistry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Chemistry\",\n  \"description\": \"Organic Chemistry Course\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            }
+          }
+        },
+        {
+          "name": "Create Class - English",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"English Literature\",\n  \"description\": \"Advanced English Literature\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            }
+          }
+        },
+        {
+          "name": "Create Class - History",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"World History\",\n  \"description\": \"Modern World History Course\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            }
+          }
+        },
+        {
+          "name": "Get All Classes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/classes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "classes"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Schedules API",
+      "item": [
+        {
+          "name": "1. Create Schedule - Monday Math",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayOfWeek\": \"MONDAY\",\n  \"startTime\": \"08:00\",\n  \"endTime\": \"09:30\",\n  \"classId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Create Schedule - Tuesday Physics",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayOfWeek\": \"TUESDAY\",\n  \"startTime\": \"10:00\",\n  \"endTime\": \"11:30\",\n  \"classId\": 2\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules"]
+            }
+          }
+        },
+        {
+          "name": "3. Create Schedule - Wednesday Chemistry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayOfWeek\": \"WEDNESDAY\",\n  \"startTime\": \"14:00\",\n  \"endTime\": \"15:30\",\n  \"classId\": 3\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules"]
+            }
+          }
+        },
+        {
+          "name": "4. Create Schedule - Thursday English",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayOfWeek\": \"THURSDAY\",\n  \"startTime\": \"09:00\",\n  \"endTime\": \"10:30\",\n  \"classId\": 4\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules"]
+            }
+          }
+        },
+        {
+          "name": "5. Create Schedule - Friday History",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayOfWeek\": \"FRIDAY\",\n  \"startTime\": \"13:00\",\n  \"endTime\": \"14:30\",\n  \"classId\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules"]
+            }
+          }
+        },
+        {
+          "name": "Get All Schedules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Schedule by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Schedule",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayOfWeek\": \"MONDAY\",\n  \"startTime\": \"08:30\",\n  \"endTime\": \"10:00\",\n  \"classId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Schedule (Soft Delete)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Error Testing",
+      "item": [
+        {
+          "name": "Create Schedule - Invalid Data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayOfWeek\": \"\",\n  \"startTime\": \"10:00\",\n  \"endTime\": \"09:00\",\n  \"classId\": null\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules"]
+            }
+          }
+        },
+        {
+          "name": "Get Non-existent Schedule",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules/999",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules", "999"]
+            }
+          }
+        },
+        {
+          "name": "Update Non-existent Schedule",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayOfWeek\": \"MONDAY\",\n  \"startTime\": \"08:00\",\n  \"endTime\": \"09:30\",\n  \"classId\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules/999",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules", "999"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-calendar-alt me-2"></i>Schedule Management
+                    </h4>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#scheduleModal"
+                            onclick="openAddModal()">
+                        <i class="fas fa-plus me-2"></i>Add Schedule
+                    </button>
+                </div>
+                <div class="card-body">
+                    <!-- Loading Spinner -->
+                    <div id="loadingSpinner" class="text-center d-none">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                    <!-- Error Alert -->
+                    <div id="errorAlert" class="alert alert-danger d-none" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <span id="errorMessage"></span>
+                    </div>
+
+                    <!-- Success Alert -->
+                    <div id="successAlert" class="alert alert-success d-none" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <span id="successMessage"></span>
+                    </div>
+
+                    <!-- Schedule Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Day of Week</th>
+                                <th scope="col">Start Time</th>
+                                <th scope="col">End Time</th>
+                                <th scope="col">Class Name</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="scheduleTableBody">
+                            <!-- Dynamic content will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="text-center py-5 d-none">
+                        <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+                        <h5 class="text-muted">No schedules found</h5>
+                        <p class="text-muted">Click "Add Schedule" to create your first schedule.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Schedule Modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scheduleModalLabel">Add Schedule</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="scheduleForm">
+                <div class="modal-body">
+                    <input type="hidden" id="scheduleId">
+
+                    <div class="mb-3">
+                        <label for="dayOfWeek" class="form-label">Day of Week <span class="text-danger">*</span></label>
+                        <select class="form-select" id="dayOfWeek" required>
+                            <option value="">Select Day</option>
+                            <option value="MONDAY">Monday</option>
+                            <option value="TUESDAY">Tuesday</option>
+                            <option value="WEDNESDAY">Wednesday</option>
+                            <option value="THURSDAY">Thursday</option>
+                            <option value="FRIDAY">Friday</option>
+                            <option value="SATURDAY">Saturday</option>
+                            <option value="SUNDAY">Sunday</option>
+                        </select>
+                        <div class="invalid-feedback" id="dayOfWeekError"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="startTime" class="form-label">Start Time <span class="text-danger">*</span></label>
+                        <input type="time" class="form-control" id="startTime" required>
+                        <div class="invalid-feedback" id="startTimeError"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="endTime" class="form-label">End Time <span class="text-danger">*</span></label>
+                        <input type="time" class="form-control" id="endTime" required>
+                        <div class="invalid-feedback" id="endTimeError"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="classId" class="form-label">Class <span class="text-danger">*</span></label>
+                        <select class="form-select" id="classId" required>
+                            <option value="">Select Class</option>
+                            <!-- Dynamic options will be loaded here -->
+                        </select>
+                        <div class="invalid-feedback" id="classIdError"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveButton">
+                        <i class="fas fa-save me-2"></i>Save Schedule
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this schedule?</p>
+                <p class="text-muted mb-0" id="deleteScheduleInfo"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">
+                    <i class="fas fa-trash me-2"></i>Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Global variables
+    let currentScheduleId = null;
+    let isEditMode = false;
+
+    // API endpoints
+    const API_BASE = '/api';
+    const SCHEDULES_ENDPOINT = `${API_BASE}/schedules`;
+    const CLASSES_ENDPOINT = `${API_BASE}/classes`;
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSchedules();
+        loadClasses();
+
+        // Form submission
+        document.getElementById('scheduleForm').addEventListener('submit', handleFormSubmit);
+
+        // Delete confirmation
+        document.getElementById('confirmDeleteButton').addEventListener('click', confirmDelete);
+    });
+
+    // Load all schedules
+    async function loadSchedules() {
+        try {
+            showLoading(true);
+            const response = await fetch(SCHEDULES_ENDPOINT);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const schedules = await response.json();
+            renderScheduleTable(schedules);
+
+        } catch (error) {
+            console.error('Error loading schedules:', error);
+            showError('Failed to load schedules. Please try again.');
+        } finally {
+            showLoading(false);
+        }
+    }
+
+    // Load classes for dropdown
+    async function loadClasses() {
+        try {
+            const response = await fetch(CLASSES_ENDPOINT);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const classes = await response.json();
+            const classSelect = document.getElementById('classId');
+
+            // Clear existing options except the first one
+            classSelect.innerHTML = '<option value="">Select Class</option>';
+
+            // Add class options
+            classes.forEach(classEntity => {
+                const option = document.createElement('option');
+                option.value = classEntity.id;
+                option.textContent = classEntity.name;
+                classSelect.appendChild(option);
+            });
+
+        } catch (error) {
+            console.error('Error loading classes:', error);
+            showError('Failed to load classes. Please refresh the page.');
+        }
+    }
+
+    // Render schedule table
+    function renderScheduleTable(schedules) {
+        const tbody = document.getElementById('scheduleTableBody');
+        const emptyState = document.getElementById('emptyState');
+
+        if (schedules.length === 0) {
+            tbody.innerHTML = '';
+            emptyState.classList.remove('d-none');
+            return;
+        }
+
+        emptyState.classList.add('d-none');
+
+        tbody.innerHTML = schedules.map((schedule, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td>
+                    <span class="badge bg-primary">${formatDayOfWeek(schedule.dayOfWeek)}</span>
+                </td>
+                <td>
+                    <i class="fas fa-clock me-1"></i>${formatTime(schedule.startTime)}
+                </td>
+                <td>
+                    <i class="fas fa-clock me-1"></i>${formatTime(schedule.endTime)}
+                </td>
+                <td>
+                    <i class="fas fa-chalkboard me-1"></i>${schedule.className || 'N/A'}
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                onclick="openEditModal(${schedule.id})" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                onclick="openDeleteModal(${schedule.id}, '${schedule.dayOfWeek}', '${schedule.startTime}', '${schedule.endTime}', '${schedule.className || 'N/A'}')" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // Format day of week
+    function formatDayOfWeek(dayOfWeek) {
+        const days = {
+            'MONDAY': 'Monday',
+            'TUESDAY': 'Tuesday',
+            'WEDNESDAY': 'Wednesday',
+            'THURSDAY': 'Thursday',
+            'FRIDAY': 'Friday',
+            'SATURDAY': 'Saturday',
+            'SUNDAY': 'Sunday'
+        };
+        return days[dayOfWeek] || dayOfWeek;
+    }
+
+    // Format time (HH:mm to HH:mm AM/PM)
+    function formatTime(timeString) {
+        if (!timeString) return 'N/A';
+
+        const [hours, minutes] = timeString.split(':');
+        const hour = parseInt(hours);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+
+        return `${displayHour}:${minutes} ${ampm}`;
+    }
+
+    // Open add modal
+    function openAddModal() {
+        isEditMode = false;
+        currentScheduleId = null;
+        document.getElementById('scheduleModalLabel').textContent = 'Add Schedule';
+        document.getElementById('saveButton').innerHTML = '<i class="fas fa-save me-2"></i>Save Schedule';
+
+        // Reset form
+        document.getElementById('scheduleForm').reset();
+        document.getElementById('scheduleId').value = '';
+        clearValidationErrors();
+
+        const modal = new bootstrap.Modal(document.getElementById('scheduleModal'));
+        modal.show();
+    }
+
+    // Open edit modal
+    async function openEditModal(scheduleId) {
+        try {
+            isEditMode = true;
+            currentScheduleId = scheduleId;
+            document.getElementById('scheduleModalLabel').textContent = 'Edit Schedule';
+            document.getElementById('saveButton').innerHTML = '<i class="fas fa-save me-2"></i>Update Schedule';
+
+            showLoading(true);
+
+            const response = await fetch(`${SCHEDULES_ENDPOINT}/${scheduleId}`);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const schedule = await response.json();
+
+            // Populate form
+            document.getElementById('scheduleId').value = schedule.id;
+            document.getElementById('dayOfWeek').value = schedule.dayOfWeek;
+            document.getElementById('startTime').value = schedule.startTime;
+            document.getElementById('endTime').value = schedule.endTime;
+            document.getElementById('classId').value = schedule.classId;
+
+            clearValidationErrors();
+
+            const modal = new bootstrap.Modal(document.getElementById('scheduleModal'));
+            modal.show();
+
+        } catch (error) {
+            console.error('Error loading schedule:', error);
+            showError('Failed to load schedule details. Please try again.');
+        } finally {
+            showLoading(false);
+        }
+    }
+
+    // Handle form submission
+    async function handleFormSubmit(event) {
+        event.preventDefault();
+
+        const formData = {
+            dayOfWeek: document.getElementById('dayOfWeek').value,
+            startTime: document.getElementById('startTime').value,
+            endTime: document.getElementById('endTime').value,
+            classId: parseInt(document.getElementById('classId').value)
+        };
+
+        // Basic validation
+        if (!validateForm(formData)) {
+            return;
+        }
+
+        try {
+            const saveButton = document.getElementById('saveButton');
+            saveButton.disabled = true;
+            saveButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+
+            let response;
+
+            if (isEditMode) {
+                formData.id = currentScheduleId;
+                response = await fetch(`${SCHEDULES_ENDPOINT}/${currentScheduleId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+            } else {
+                response = await fetch(SCHEDULES_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+            }
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('scheduleModal'));
+            modal.hide();
+
+            // Show success message
+            showSuccess(isEditMode ? 'Schedule updated successfully!' : 'Schedule created successfully!');
+
+            // Reload schedules
+            loadSchedules();
+
+        } catch (error) {
+            console.error('Error saving schedule:', error);
+            showError('Failed to save schedule. Please try again.');
+        } finally {
+            const saveButton = document.getElementById('saveButton');
+            saveButton.disabled = false;
+            saveButton.innerHTML = isEditMode ?
+                '<i class="fas fa-save me-2"></i>Update Schedule' :
+                '<i class="fas fa-save me-2"></i>Save Schedule';
+        }
+    }
+
+    // Validate form
+    function validateForm(formData) {
+        let isValid = true;
+        clearValidationErrors();
+
+        // Validate day of week
+        if (!formData.dayOfWeek) {
+            showFieldError('dayOfWeek', 'Day of week is required');
+            isValid = false;
+        }
+
+        // Validate start time
+        if (!formData.startTime) {
+            showFieldError('startTime', 'Start time is required');
+            isValid = false;
+        }
+
+        // Validate end time
+        if (!formData.endTime) {
+            showFieldError('endTime', 'End time is required');
+            isValid = false;
+        }
+
+        // Validate class
+        if (!formData.classId || isNaN(formData.classId)) {
+            showFieldError('classId', 'Class is required');
+            isValid = false;
+        }
+
+        // Validate time range
+        if (formData.startTime && formData.endTime) {
+            if (formData.startTime >= formData.endTime) {
+                showFieldError('endTime', 'End time must be after start time');
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
+
+    // Show field error
+    function showFieldError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        const errorDiv = document.getElementById(fieldId + 'Error');
+
+        field.classList.add('is-invalid');
+        errorDiv.textContent = message;
+    }
+
+    // Clear validation errors
+    function clearValidationErrors() {
+        const fields = ['dayOfWeek', 'startTime', 'endTime', 'classId'];
+        fields.forEach(fieldId => {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.getElementById(fieldId + 'Error');
+
+            field.classList.remove('is-invalid');
+            errorDiv.textContent = '';
+        });
+    }
+
+    // Open delete modal
+    function openDeleteModal(scheduleId, dayOfWeek, startTime, endTime, className) {
+        currentScheduleId = scheduleId;
+
+        const scheduleInfo = `${formatDayOfWeek(dayOfWeek)} from ${formatTime(startTime)} to ${formatTime(endTime)} - ${className}`;
+        document.getElementById('deleteScheduleInfo').textContent = scheduleInfo;
+
+        const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        modal.show();
+    }
+
+    // Confirm delete
+    async function confirmDelete() {
+        try {
+            const deleteButton = document.getElementById('confirmDeleteButton');
+            deleteButton.disabled = true;
+            deleteButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Deleting...';
+
+            const response = await fetch(`${SCHEDULES_ENDPOINT}/${currentScheduleId}`, {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+            modal.hide();
+
+            // Show success message
+            showSuccess('Schedule deleted successfully!');
+
+            // Reload schedules
+            loadSchedules();
+
+        } catch (error) {
+            console.error('Error deleting schedule:', error);
+            showError('Failed to delete schedule. Please try again.');
+        } finally {
+            const deleteButton = document.getElementById('confirmDeleteButton');
+            deleteButton.disabled = false;
+            deleteButton.innerHTML = '<i class="fas fa-trash me-2"></i>Delete';
+        }
+    }
+
+    // Show loading spinner
+    function showLoading(show) {
+        const spinner = document.getElementById('loadingSpinner');
+        if (show) {
+            spinner.classList.remove('d-none');
+        } else {
+            spinner.classList.add('d-none');
+        }
+    }
+
+    // Show error message
+    function showError(message) {
+        const errorAlert = document.getElementById('errorAlert');
+        const errorMessage = document.getElementById('errorMessage');
+        const successAlert = document.getElementById('successAlert');
+
+        successAlert.classList.add('d-none');
+        errorMessage.textContent = message;
+        errorAlert.classList.remove('d-none');
+
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            errorAlert.classList.add('d-none');
+        }, 5000);
+    }
+
+    // Show success message
+    function showSuccess(message) {
+        const successAlert = document.getElementById('successAlert');
+        const successMessage = document.getElementById('successMessage');
+        const errorAlert = document.getElementById('errorAlert');
+
+        errorAlert.classList.add('d-none');
+        successMessage.textContent = message;
+        successAlert.classList.remove('d-none');
+
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+            successAlert.classList.add('d-none');
+        }, 3000);
+    }
+</script>
+</body>
+</html>

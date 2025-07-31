@@ -55,4 +55,16 @@ public interface ClassEntityRepository extends JpaRepository<ClassEntity, Long> 
      * Check if class exists by name
      */
     boolean existsByNameIgnoreCaseAndIsDeletedFalse(String name);
+
+    // Find all non-deleted classes
+    @Query("SELECT c FROM ClassEntity c WHERE c.isDeleted = false")
+    List<ClassEntity> findAllActive();
+
+    // Find non-deleted class by ID
+    @Query("SELECT c FROM ClassEntity c WHERE c.id = :id AND c.isDeleted = false")
+    Optional<ClassEntity> findActiveById(Long id);
+
+    // Find classes by name (non-deleted)
+    @Query("SELECT c FROM ClassEntity c WHERE c.name LIKE %:name% AND c.isDeleted = false")
+    List<ClassEntity> findByNameContainingAndNotDeleted(String name);
 }

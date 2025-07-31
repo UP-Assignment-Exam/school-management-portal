@@ -32,16 +32,35 @@ CREATE DATABASE school_management;
 Edit `src/main/resources/application.properties`:
 
 ```properties
+# Spring application name
+spring.application.name=school-management-portal
+
+# MySQL connection settings
 spring.datasource.url=jdbc:mysql://localhost:3306/school_management?useSSL=false&serverTimezone=UTC
 spring.datasource.username=root
-spring.datasource.password=  # your MySQL password (default empty in XAMPP)
+spring.datasource.password=
 
+# JPA / Hibernate settings
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 
+# File Upload Configuration
 file.upload-dir=uploads/
-spring.web.resources.static-locations=file:uploads/
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+# Thymeleaf Configuration
+spring.thymeleaf.cache=false
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+
+# Server Configuration
+server.port=8080
+
+# Logging Configuration
+logging.level.com.school_management_portal=DEBUG
+logging.level.org.springframework.security=DEBUG
 ```
 
 ---
@@ -91,12 +110,12 @@ Or run via your IDE’s Spring Boot configuration.
 - **Port 8080 in use**: Change port in `application.properties`:
 
 ```properties
-server.port=9090
+server.port=8080
 ```
 
 ---
 
 ## 📬 Contact
 
-For questions, reach out to **[Your Name]** at **[your.email@example.com]**
+For questions, reach out to **Damon Kert** at **damonkert@gmail.com**
 g

@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/class")
+@RequestMapping("/classes")
 public class ClassEntityPageController {
     /**
      * Display the class management page
-     * URL: http://localhost:8080/class
+     * URL: http://localhost:8080/classes
      */
     @GetMapping
     public String classEntityPage(Model model) {

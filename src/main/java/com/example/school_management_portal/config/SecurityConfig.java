@@ -10,9 +10,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
@@ -30,22 +27,20 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())  // disable CSRF if you want
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("*").permitAll()
-//                        .requestMatchers("/login", "/register").permitAll()
-                        .anyRequest().authenticated()
+//                        .requestMatchers("*").permitAll()
+                                .requestMatchers("/login", "/register").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/dashboard", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
                 );
-
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .defaultSuccessUrl("/dashboard", true)
-//                        .permitAll()
-//                );
-
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/login?logout")
-//                        .permitAll()
-//                );
 
         return http.build();
     }
@@ -61,10 +56,5 @@ public class SecurityConfig {
                     List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()))
             );
         };
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

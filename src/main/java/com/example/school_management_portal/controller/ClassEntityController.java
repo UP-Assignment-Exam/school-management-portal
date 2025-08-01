@@ -1,22 +1,28 @@
 package com.example.school_management_portal.controller;
 
+import com.example.school_management_portal.dto.ClassEntityDto;
 import com.example.school_management_portal.entity.ClassEntity;
+import com.example.school_management_portal.entity.Student;
+import com.example.school_management_portal.entity.Teacher;
 import com.example.school_management_portal.service.ClassEntityService;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.Optional;
-import java.util.Map;
-import java.util.HashMap;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/classes")
 @CrossOrigin(origins = "*")
 public class ClassEntityController {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     private final ClassEntityService classEntityService;
 
@@ -92,8 +98,26 @@ public class ClassEntityController {
      * POST /api/classes - Create new class
      */
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createClass(@Valid @RequestBody ClassEntity classEntity) {
+    public ResponseEntity<Map<String, Object>> createClass(@Valid @RequestBody ClassEntityDto classDto) {
         try {
+            // Convert DTO to Entity
+            ClassEntity classEntity = modelMapper.map(classDto, ClassEntity.class);
+
+            // Set teacher reference manually if needed
+            Teacher teacher = new Teacher();
+            teacher.setId(classDto.getTeacher().getId());
+            classEntity.setTeacher(teacher);
+
+
+            // Set students based on IDs
+            Set<Student> students = classDto.getStudentIds().stream().map(id -> {
+                Student student = new Student();
+                student.setId(id);
+                return student;
+            }).collect(Collectors.toSet());
+
+            classEntity.setStudents(students);
+
             ClassEntity createdClass = classEntityService.create(classEntity);
 
             Map<String, Object> response = new HashMap<>();
@@ -122,9 +146,25 @@ public class ClassEntityController {
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateClass(
             @PathVariable Long id,
-            @Valid @RequestBody ClassEntity classEntity) {
+            @Valid @RequestBody ClassEntityDto classDto) {
 
         try {
+            // Convert DTO to Entity
+            ClassEntity classEntity = modelMapper.map(classDto, ClassEntity.class);
+
+            // Set teacher reference manually if needed
+            Teacher teacher = new Teacher();
+            teacher.setId(classDto.getTeacher().getId());
+            classEntity.setTeacher(teacher);
+
+            // Set students based on IDs
+            Set<Student> students = classDto.getStudentIds().stream().map(studentId -> {
+                Student student = new Student();
+                student.setId(studentId);
+                return student;
+            }).collect(Collectors.toSet());
+
+            classEntity.setStudents(students);
             ClassEntity updatedClass = classEntityService.update(id, classEntity);
 
             Map<String, Object> response = new HashMap<>();

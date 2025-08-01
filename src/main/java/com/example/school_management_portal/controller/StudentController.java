@@ -1,10 +1,13 @@
 package com.example.school_management_portal.controller;
 
 
+import com.example.school_management_portal.dto.StudentDto;
 import com.example.school_management_portal.entity.Student;
 import com.example.school_management_portal.service.StudentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +20,9 @@ import java.util.HashMap;
 @RequestMapping("/api/students")
 @CrossOrigin(origins = "*")
 public class StudentController {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private StudentService studentService;
@@ -73,9 +79,12 @@ public class StudentController {
     /**
      * POST /api/students - Create new student
      */
-    @PostMapping
-    public ResponseEntity<Map<String, Object>> createStudent(@RequestBody Student student) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> createStudent(@RequestBody StudentDto studentDto) {
         try {
+            // Map DTO to Entity
+            Student student = modelMapper.map(studentDto, Student.class);
+
             Student createdStudent = studentService.createStudent(student);
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -99,9 +108,12 @@ public class StudentController {
     /**
      * PUT /api/students/{id} - Update student
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateStudent(@PathVariable Long id, @RequestBody Student student) {
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, Object>> updateStudent(@PathVariable Long id, @RequestBody StudentDto studentDto) {
         try {
+            // Map DTO to Entity
+            Student student = modelMapper.map(studentDto, Student.class);
+
             Student updatedStudent = studentService.updateStudent(id, student);
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);

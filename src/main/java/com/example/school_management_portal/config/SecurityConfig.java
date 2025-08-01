@@ -27,9 +27,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())  // disable CSRF if you want
 
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("*").permitAll()
-                                .requestMatchers("/login", "/register", "/css/**", "/style.css").permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()  // allow all requests
+//                                .requestMatchers("/login", "/register", "/css/**", "/style.css").permitAll()
+//                                .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

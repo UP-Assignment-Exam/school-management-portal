@@ -33,7 +33,7 @@ public class Teacher extends BaseEntity {
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
     @Size(max = 100, message = "Email must not exceed 100 characters")
-    @Column(name = "email", nullable = false, unique = true, length = 100)
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
 
     @Size(max = 15, message = "Phone number must not exceed 15 characters")

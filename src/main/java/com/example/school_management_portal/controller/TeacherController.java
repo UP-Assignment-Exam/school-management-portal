@@ -1,7 +1,10 @@
 package com.example.school_management_portal.controller;
 
+import com.example.school_management_portal.dto.TeacherDto;
+import com.example.school_management_portal.entity.Student;
 import com.example.school_management_portal.entity.Teacher;
 import com.example.school_management_portal.service.TeacherService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,9 @@ import java.util.Optional;
 @RequestMapping("/api/teachers")
 @CrossOrigin(origins = "*")
 public class TeacherController {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private TeacherService teacherService;
@@ -43,8 +49,11 @@ public class TeacherController {
     }
 
     @PostMapping
-    public ResponseEntity<Teacher> createTeacher(@Valid @RequestBody Teacher teacher) {
+    public ResponseEntity<Teacher> createTeacher(@Valid @RequestBody TeacherDto teacherDto) {
         try {
+            // Map DTO to Entity
+            Teacher teacher = modelMapper.map(teacherDto, Teacher.class);
+
             Teacher savedTeacher = teacherService.saveTeacher(teacher);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedTeacher);
         } catch (RuntimeException e) {
@@ -55,8 +64,11 @@ public class TeacherController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Teacher> updateTeacher(@PathVariable Long id, @Valid @RequestBody Teacher teacherDetails) {
+    public ResponseEntity<Teacher> updateTeacher(@PathVariable Long id, @Valid @RequestBody TeacherDto teacherDto) {
         try {
+            // Map DTO to Entity
+            Teacher teacherDetails = modelMapper.map(teacherDto, Teacher.class);
+
             Teacher updatedTeacher = teacherService.updateTeacher(id, teacherDetails);
             return ResponseEntity.ok(updatedTeacher);
         } catch (RuntimeException e) {

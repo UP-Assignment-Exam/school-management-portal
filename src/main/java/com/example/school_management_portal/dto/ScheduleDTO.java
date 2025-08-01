@@ -3,14 +3,14 @@ package com.example.school_management_portal.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.internal.build.AllowNonPortable;
+import lombok.NoArgsConstructor;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
-@AllowNonPortable
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ScheduleDTO {
     private Long id;

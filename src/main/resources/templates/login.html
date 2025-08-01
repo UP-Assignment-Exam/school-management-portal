@@ -5,58 +5,330 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>School Management Portal - Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" th:href="@{/style.css}" />
+  <link rel="stylesheet" th:href="@{/css/globalTheme.css}" />
 </head>
 <body class="bg-light">
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-6 col-lg-4">
-      <div class="card mt-5">
-        <div class="card-header text-center">
-          <h3>School Management Portal</h3>
-          <p class="text-muted">Please sign in to your account</p>
-        </div>
-        <div class="card-body">
-          <div th:if="${param.error}" class="alert alert-danger">
-            Invalid username or password.
-          </div>
-          <div th:if="${param.logout}" class="alert alert-success">
-            You have been logged out successfully.
-          </div>
+<div class="login-container">
+  <div class="login-card fade-in">
+    <div class="login-header">
+      <div class="login-logo">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+      <h1 class="login-title">Welcome Back</h1>
+      <p class="login-subtitle">Sign in to your account to continue</p>
+    </div>
 
-          <form th:action="@{/login}" method="post">
-            <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" name="username"
-                     placeholder="Enter your username" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" name="password"
-                     placeholder="Enter your password" required>
-            </div>
-
-            <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
-              <label class="form-check-label" for="remember-me">
-                Remember me
-              </label>
-            </div>
-
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary">Sign In</button>
-            </div>
-          </form>
-
-          <hr>
-          <div class="text-center">
-            <a th:href="@{/register}" class="text-decoration-none">Don't have an account? Register here</a>
-          </div>
+    <form class="login-form" id="loginForm" action="/login" method="POST">
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <div style="position: relative;">
+          <input type="text" id="username" name="username" class="form-input has-icon" placeholder="Enter your username" required>
+          <i class="fas fa-user input-icon"></i>
         </div>
       </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div style="position: relative;">
+          <input type="password" id="password" name="password" class="form-input has-icon" placeholder="Enter your password" required>
+          <i class="fas fa-lock input-icon"></i>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="remember-me" name="remember-me" class="checkbox-input">
+        <label for="remember-me" class="checkbox-label">Remember me</label>
+      </div>
+
+<!--      <div class="forgot-password">-->
+<!--        <a href="/forgot-password">Forgot your password?</a>-->
+<!--      </div>-->
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; font-size: 1rem; padding: 15px;">
+        <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i>
+        Sign In
+      </button>
+    </form>
+
+<!--    <div class="login-divider">-->
+<!--      <span>or continue with</span>-->
+<!--    </div>-->
+
+<!--    <div class="social-login">-->
+<!--      <button class="social-btn" onclick="socialLogin('google')">-->
+<!--        <i class="fab fa-google"></i>-->
+<!--      </button>-->
+<!--      <button class="social-btn" onclick="socialLogin('microsoft')">-->
+<!--        <i class="fab fa-microsoft"></i>-->
+<!--      </button>-->
+<!--      <button class="social-btn" onclick="socialLogin('apple')">-->
+<!--        <i class="fab fa-apple"></i>-->
+<!--      </button>-->
+<!--    </div>-->
+
+    <div class="signup-link">
+      Don't have an account? <a href="#" onclick="showSignup()">Sign up here</a>
     </div>
+
+    <!-- Demo Credentials Helper -->
+<!--    <div style="margin-top: 20px; padding: 16px; background: rgba(102, 126, 234, 0.1); border-radius: var(&#45;&#45;border-radius-sm); text-align: center;">-->
+<!--      <p style="color: var(&#45;&#45;text-secondary); font-size: 0.85rem; margin-bottom: 12px;">Demo Credentials (for testing):</p>-->
+<!--      <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">-->
+<!--        <button type="button" onclick="fillDemoCredentials('admin')" style="padding: 4px 12px; background: var(&#45;&#45;primary-gradient); color: white; border: none; border-radius: 15px; font-size: 0.8rem; cursor: pointer;">admin/admin123</button>-->
+<!--        <button type="button" onclick="fillDemoCredentials('teacher')" style="padding: 4px 12px; background: var(&#45;&#45;secondary-gradient); color: white; border: none; border-radius: 15px; font-size: 0.8rem; cursor: pointer;">teacher/teacher123</button>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </div>
+
+<script>
+  // Form validation helper
+  function validateForm(email, password) {
+      const errors = [];
+
+      if (!email || !email.includes('@')) {
+          errors.push('Please enter a valid email address');
+      }
+
+      if (!password || password.length < 6) {
+          errors.push('Password must be at least 6 characters long');
+      }
+
+      return errors;
+  }
+
+  // Show error messages
+  function showErrors(errors) {
+      // Remove existing error messages
+      document.querySelectorAll('.error-message').forEach(el => el.remove());
+
+      errors.forEach(error => {
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'error-message';
+          errorDiv.style.cssText = `
+              color: var(--danger-color);
+              font-size: 0.9rem;
+              margin: 8px 0;
+              padding: 8px 12px;
+              background: rgba(220, 53, 69, 0.1);
+              border-radius: var(--border-radius-sm);
+              border-left: 3px solid var(--danger-color);
+          `;
+          errorDiv.textContent = error;
+          document.querySelector('.login-form').insertBefore(errorDiv, document.querySelector('.checkbox-group'));
+      });
+  }
+
+  // Show success message
+  function showSuccess(message) {
+      const successDiv = document.createElement('div');
+      successDiv.className = 'success-message';
+      successDiv.style.cssText = `
+          color: var(--success-color);
+          font-size: 0.9rem;
+          margin: 8px 0;
+          padding: 8px 12px;
+          background: rgba(40, 167, 69, 0.1);
+          border-radius: var(--border-radius-sm);
+          border-left: 3px solid var(--success-color);
+      `;
+      successDiv.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 8px;"></i>${message}`;
+      document.querySelector('.login-form').insertBefore(successDiv, document.querySelector('.checkbox-group'));
+
+      setTimeout(() => successDiv.remove(), 3000);
+  }
+
+  // Spring Security form-based authentication
+  // The form will submit naturally to /login endpoint
+
+  // Add loading state on form submission
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+
+      // Add loading state
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>Signing In...';
+      submitBtn.disabled = true;
+
+      // Let the form submit naturally to Spring Security
+      // Spring Security will handle the authentication and redirect
+  });
+
+  // Check for login error parameter (Spring Security default)
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('error') !== null) {
+      showError('Invalid username or password. Please try again.');
+  }
+
+  // Check for logout parameter
+  if (urlParams.get('logout') !== null) {
+      showSuccess('You have been logged out successfully.');
+  }
+
+  // Show error message function
+  function showError(message) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message';
+      errorDiv.style.cssText = `
+          color: var(--danger-color);
+          font-size: 0.9rem;
+          margin: 8px 0;
+          padding: 12px 16px;
+          background: rgba(220, 53, 69, 0.1);
+          border-radius: var(--border-radius-sm);
+          border-left: 3px solid var(--danger-color);
+          animation: slideDown 0.3s ease-out;
+      `;
+      errorDiv.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>${message}`;
+
+      const form = document.querySelector('.login-form');
+      form.insertBefore(errorDiv, form.firstChild);
+  }
+
+  // Show success message function
+  function showSuccess(message) {
+      const successDiv = document.createElement('div');
+      successDiv.className = 'success-message';
+      successDiv.style.cssText = `
+          color: var(--success-color);
+          font-size: 0.9rem;
+          margin: 8px 0;
+          padding: 12px 16px;
+          background: rgba(40, 167, 69, 0.1);
+          border-radius: var(--border-radius-sm);
+          border-left: 3px solid var(--success-color);
+          animation: slideDown 0.3s ease-out;
+      `;
+      successDiv.innerHTML = `<i class="fas fa-check-circle" style="margin-right: 8px;"></i>${message}`;
+
+      const form = document.querySelector('.login-form');
+      form.insertBefore(successDiv, form.firstChild);
+
+      // Auto-remove success message after 4 seconds
+      setTimeout(() => {
+          successDiv.remove();
+      }, 4000);
+  }
+
+  // Demo credentials helper for testing
+  function fillDemoCredentials(type) {
+      if (type === 'admin') {
+          document.getElementById('username').value = 'admin';
+          document.getElementById('password').value = 'admin123';
+      } else if (type === 'teacher') {
+          document.getElementById('username').value = 'teacher';
+          document.getElementById('password').value = 'teacher123';
+      }
+  }
+
+  // Social login would need to be integrated with Spring Security OAuth2
+  function socialLogin(provider) {
+      // Redirect to Spring Security OAuth2 endpoints
+      if (provider === 'google') {
+          window.location.href = '/oauth2/authorization/google';
+      } else if (provider === 'microsoft') {
+          window.location.href = '/oauth2/authorization/microsoft';
+      }
+      // Note: You need to configure OAuth2 in your Spring Security config
+  }
+
+  // Social login handler
+  function socialLogin(provider) {
+      const btn = event.target.closest('.social-btn');
+      const originalContent = btn.innerHTML;
+
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+      btn.disabled = true;
+
+      setTimeout(() => {
+          console.log(`${provider} login initiated`);
+          alert(`${provider} login would connect to ${provider} OAuth in a real implementation!`);
+
+          btn.innerHTML = originalContent;
+          btn.disabled = false;
+      }, 1500);
+  }
+
+  // Forgot password handler
+  function showForgotPassword() {
+      const email = document.getElementById('email').value.trim();
+      if (email) {
+          alert(`Password reset link would be sent to: ${email}`);
+      } else {
+          alert('Please enter your email address first, then click "Forgot your password?"');
+          document.getElementById('email').focus();
+      }
+  }
+
+  // Sign up handler
+  function showSignup() {
+      window.location.href = '/register';
+  }
+
+  // Demo credentials helper
+  function fillDemoCredentials(type) {
+      if (type === 'admin') {
+          document.getElementById('email').value = 'admin@school.edu';
+          document.getElementById('password').value = 'admin123';
+      } else if (type === 'teacher') {
+          document.getElementById('email').value = 'teacher@school.edu';
+          document.getElementById('password').value = 'teacher123';
+      }
+  }
+
+  // Add subtle animations on input focus
+  document.querySelectorAll('.form-input').forEach(input => {
+      input.addEventListener('focus', function() {
+          this.parentElement.style.transform = 'scale(1.02)';
+      });
+
+      input.addEventListener('blur', function() {
+          this.parentElement.style.transform = 'scale(1)';
+      });
+  });
+
+  // Add ripple effect to buttons
+  document.querySelectorAll('.btn, .social-btn').forEach(button => {
+      button.addEventListener('click', function(e) {
+          const ripple = document.createElement('span');
+          const rect = this.getBoundingClientRect();
+          const size = Math.max(rect.width, rect.height);
+          const x = e.clientX - rect.left - size / 2;
+          const y = e.clientY - rect.top - size / 2;
+
+          ripple.style.cssText = `
+              position: absolute;
+              width: ${size}px;
+              height: ${size}px;
+              left: ${x}px;
+              top: ${y}px;
+              background: rgba(255, 255, 255, 0.3);
+              border-radius: 50%;
+              transform: scale(0);
+              animation: ripple 0.6s ease-out;
+              pointer-events: none;
+          `;
+
+          this.appendChild(ripple);
+
+          setTimeout(() => ripple.remove(), 600);
+      });
+  });
+
+  // Add ripple animation
+  const style = document.createElement('style');
+  style.textContent = `
+      @keyframes ripple {
+          to {
+              transform: scale(2);
+              opacity: 0;
+          }
+      }
+  `;
+  document.head.appendChild(style);
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

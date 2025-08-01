@@ -1,6 +1,7 @@
 package com.example.school_management_portal.page;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,8 @@ public class StudentPageController {
      * URL: http://localhost:8080/students
      */
     @GetMapping
-    public String studentPage(Model model) {
+    public String studentPage(HttpServletRequest request, Model model) {
+        model.addAttribute("currentUri", request.getRequestURI());
         model.addAttribute("pageTitle", "Student Management");
         model.addAttribute("pageDescription", "Manage student records and information");
         return "students/student"; // This will look for templates/students/student.html

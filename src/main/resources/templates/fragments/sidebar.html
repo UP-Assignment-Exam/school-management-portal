@@ -10,25 +10,25 @@
 
         <ul class="sidebar-menu">
             <li>
-                <a href="/dashboard" class="active">
+                <a href="/dashboard" th:classappend="${currentUri == '/dashboard'} ? 'active'">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li sec:authorize="hasRole('ADMIN')">
-                <a href="/students">
+                <a href="/students" th:classappend="${currentUri == '/students'} ? 'active'">
                     <i class="fas fa-user-graduate"></i>
                     <span>Students</span>
                 </a>
             </li>
             <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
-                <a href="/teachers">
+                <a href="/teachers" th:classappend="${currentUri == '/teachers'} ? 'active'">
                     <i class="fas fa-chalkboard-teacher"></i>
                     <span>Teachers</span>
                 </a>
             </li>
             <li>
-                <a href="/classes">
+                <a href="/classes" th:classappend="${currentUri == '/classes'} ? 'active'">
                     <i class="fas fa-door-open"></i>
                     <span>Classes</span>
                 </a>
@@ -46,13 +46,13 @@
             <!--            </a>-->
             <!--        </li>-->
             <li>
-                <a href="/schedules">
+                <a href="/schedules" th:classappend="${currentUri == '/schedules'} ? 'active'">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Schedule</span>
                 </a>
             </li>
             <li>
-                <a href="/attendance">
+                <a href="/attendance" th:classappend="${currentUri == '/attendance'} ? 'active'">
                     <i class="fas fa-clipboard-check"></i>
                     <span>Attendance</span>
                 </a>

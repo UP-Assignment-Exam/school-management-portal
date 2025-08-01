@@ -115,6 +115,93 @@ server.port=8080
 
 ---
 
+## 🧩 Entity Relationship Diagram
+
+```mermaid
+erDiagram
+
+    USER {
+        LONG id
+        STRING username
+        STRING password
+        ENUM role
+        BOOLEAN enabled
+        BOOLEAN isDeleted
+        DATETIME createdAt
+        DATETIME updatedAt
+    }
+
+    TEACHER {
+        LONG id
+        STRING firstName
+        STRING lastName
+        STRING email
+        STRING phoneNumber
+        BOOLEAN isActive
+        STRING imageUrl
+        BOOLEAN isDeleted
+        DATETIME createdAt
+        DATETIME updatedAt
+    }
+
+    STUDENT {
+        LONG id
+        STRING firstName
+        STRING lastName
+        STRING email
+        DATE dateOfBirth
+        STRING gender
+        TEXT address
+        DATE enrollmentDate
+        BOOLEAN isActive
+        STRING imageUrl
+        BOOLEAN isDeleted
+        DATETIME createdAt
+        DATETIME updatedAt
+    }
+
+    CLASSENTITY {
+        LONG id
+        STRING name
+        STRING description
+        DATE startDate
+        DATE endDate
+        INTEGER maxStudents
+        BOOLEAN isDeleted
+        DATETIME createdAt
+        DATETIME updatedAt
+    }
+
+    ATTENDANCE {
+        LONG id
+        DATE date
+        STRING status
+        STRING remarks
+        BOOLEAN isDeleted
+        DATETIME createdAt
+        DATETIME updatedAt
+    }
+
+    SCHEDULE {
+        LONG id
+        ENUM dayOfWeek
+        TIME startTime
+        TIME endTime
+        BOOLEAN isDeleted
+        DATETIME createdAt
+        DATETIME updatedAt
+    }
+
+    %% Relationships
+    STUDENT ||--o{ ATTENDANCE : has
+    CLASSENTITY ||--o{ ATTENDANCE : has
+    CLASSENTITY ||--o{ SCHEDULE : has
+    TEACHER ||--o{ CLASSENTITY : teaches
+    CLASSENTITY }o--o{ STUDENT : includes
+```
+
+---
+
 ## 📬 Contact
 
 For questions, reach out to **Damon Kert** at **damonkert@gmail.com**

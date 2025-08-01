@@ -31,7 +31,7 @@
 
         .sidebar-header {
             padding: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
         }
 
@@ -59,7 +59,7 @@
             display: flex;
             align-items: center;
             padding: 12px 20px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             transition: all 0.3s ease;
             border-radius: 0 25px 25px 0;
@@ -67,13 +67,13 @@
         }
 
         .sidebar-menu a:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             transform: translateX(5px);
         }
 
         .sidebar-menu a.active {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
         }
 
@@ -106,7 +106,7 @@
         .top-header {
             background: white;
             padding: 15px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -257,7 +257,7 @@
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
         }
 
@@ -314,7 +314,7 @@
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
         .activity-item {
@@ -380,120 +380,122 @@
 </head>
 <body>
 <!-- Sidebar -->
-<div class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <h4><i class="fas fa-graduation-cap"></i> <span>School Portal</span></h4>
-    </div>
+<!--<div class="sidebar" id="sidebar">-->
+<!--    <div class="sidebar-header">-->
+<!--        <h4><i class="fas fa-graduation-cap"></i> <span>School Portal</span></h4>-->
+<!--    </div>-->
 
-    <ul class="sidebar-menu">
-        <li>
-            <a href="/dashboard" class="active">
-                <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
-        <li sec:authorize="hasRole('ADMIN')">
-            <a href="/students">
-                <i class="fas fa-user-graduate"></i>
-                <span>Students</span>
-            </a>
-        </li>
-        <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">
-            <a href="/teachers">
-                <i class="fas fa-chalkboard-teacher"></i>
-                <span>Teachers</span>
-            </a>
-        </li>
-        <li>
-            <a href="/classes">
-                <i class="fas fa-door-open"></i>
-                <span>Classes</span>
-            </a>
-        </li>
+<!--    <ul class="sidebar-menu">-->
 <!--        <li>-->
-<!--            <a href="/subjects">-->
-<!--                <i class="fas fa-book"></i>-->
-<!--                <span>Subjects</span>-->
+<!--            <a href="/dashboard" class="active">-->
+<!--                <i class="fas fa-tachometer-alt"></i>-->
+<!--                <span>Dashboard</span>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--        <li sec:authorize="hasRole('ADMIN')">-->
+<!--            <a href="/students">-->
+<!--                <i class="fas fa-user-graduate"></i>-->
+<!--                <span>Students</span>-->
 <!--            </a>-->
 <!--        </li>-->
 <!--        <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">-->
-<!--            <a href="/grades">-->
-<!--                <i class="fas fa-chart-line"></i>-->
-<!--                <span>Grades</span>-->
-<!--            </a>-->
-<!--        </li>-->
-        <li>
-            <a href="/schedules">
-                <i class="fas fa-calendar-alt"></i>
-                <span>Schedule</span>
-            </a>
-        </li>
-        <li>
-            <a href="/attendance">
-                <i class="fas fa-clipboard-check"></i>
-                <span>Attendance</span>
-            </a>
-        </li>
-<!--        <li>-->
-<!--            <a href="/library">-->
-<!--                <i class="fas fa-books"></i>-->
-<!--                <span>Library</span>-->
+<!--            <a href="/teachers">-->
+<!--                <i class="fas fa-chalkboard-teacher"></i>-->
+<!--                <span>Teachers</span>-->
 <!--            </a>-->
 <!--        </li>-->
 <!--        <li>-->
-<!--            <a href="/events">-->
-<!--                <i class="fas fa-calendar-week"></i>-->
-<!--                <span>Events</span>-->
+<!--            <a href="/classes">-->
+<!--                <i class="fas fa-door-open"></i>-->
+<!--                <span>Classes</span>-->
 <!--            </a>-->
 <!--        </li>-->
-<!--        <li sec:authorize="hasRole('ADMIN')">-->
-<!--            <a href="/reports">-->
-<!--                <i class="fas fa-chart-pie"></i>-->
-<!--                <span>Reports</span>-->
+<!--        &lt;!&ndash;        <li>&ndash;&gt;-->
+<!--        &lt;!&ndash;            <a href="/subjects">&ndash;&gt;-->
+<!--        &lt;!&ndash;                <i class="fas fa-book"></i>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <span>Subjects</span>&ndash;&gt;-->
+<!--        &lt;!&ndash;            </a>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </li>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <li sec:authorize="hasAnyRole('ADMIN', 'TEACHER')">&ndash;&gt;-->
+<!--        &lt;!&ndash;            <a href="/grades">&ndash;&gt;-->
+<!--        &lt;!&ndash;                <i class="fas fa-chart-line"></i>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <span>Grades</span>&ndash;&gt;-->
+<!--        &lt;!&ndash;            </a>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </li>&ndash;&gt;-->
+<!--        <li>-->
+<!--            <a href="/schedules">-->
+<!--                <i class="fas fa-calendar-alt"></i>-->
+<!--                <span>Schedule</span>-->
 <!--            </a>-->
 <!--        </li>-->
-<!--        <li sec:authorize="hasRole('ADMIN')">-->
-<!--            <a href="/settings">-->
-<!--                <i class="fas fa-cog"></i>-->
-<!--                <span>Settings</span>-->
+<!--        <li>-->
+<!--            <a href="/attendance">-->
+<!--                <i class="fas fa-clipboard-check"></i>-->
+<!--                <span>Attendance</span>-->
 <!--            </a>-->
 <!--        </li>-->
-    </ul>
-</div>
+<!--        &lt;!&ndash;        <li>&ndash;&gt;-->
+<!--        &lt;!&ndash;            <a href="/library">&ndash;&gt;-->
+<!--        &lt;!&ndash;                <i class="fas fa-books"></i>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <span>Library</span>&ndash;&gt;-->
+<!--        &lt;!&ndash;            </a>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </li>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <li>&ndash;&gt;-->
+<!--        &lt;!&ndash;            <a href="/events">&ndash;&gt;-->
+<!--        &lt;!&ndash;                <i class="fas fa-calendar-week"></i>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <span>Events</span>&ndash;&gt;-->
+<!--        &lt;!&ndash;            </a>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </li>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <li sec:authorize="hasRole('ADMIN')">&ndash;&gt;-->
+<!--        &lt;!&ndash;            <a href="/reports">&ndash;&gt;-->
+<!--        &lt;!&ndash;                <i class="fas fa-chart-pie"></i>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <span>Reports</span>&ndash;&gt;-->
+<!--        &lt;!&ndash;            </a>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </li>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <li sec:authorize="hasRole('ADMIN')">&ndash;&gt;-->
+<!--        &lt;!&ndash;            <a href="/settings">&ndash;&gt;-->
+<!--        &lt;!&ndash;                <i class="fas fa-cog"></i>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <span>Settings</span>&ndash;&gt;-->
+<!--        &lt;!&ndash;            </a>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </li>&ndash;&gt;-->
+<!--    </ul>-->
+<!--</div>-->
 
 <!-- Main Content -->
 <div class="main-content" id="main-content">
     <!-- Top Header -->
-    <div class="top-header">
-        <div class="header-left">
-            <button class="toggle-btn" id="toggle-sidebar">
-                <i class="fas fa-bars"></i>
-            </button>
-
-<!--            <div class="search-bar">-->
-<!--                <i class="fas fa-search"></i>-->
-<!--                <input type="text" placeholder="Search students, teachers, classes...">-->
-<!--            </div>-->
-        </div>
-
-        <div class="header-right">
-<!--            <button class="notification-btn">-->
-<!--                <i class="fas fa-bell"></i>-->
-<!--                <span class="notification-badge">3</span>-->
+<!--    <div class="top-header">-->
+<!--        <div class="header-left">-->
+<!--            <button class="toggle-btn" id="toggle-sidebar">-->
+<!--                <i class="fas fa-bars"></i>-->
 <!--            </button>-->
 
-            <div class="user-info" onclick="toggleUserDropdown()">
-                <div class="user-avatar">
-                    <span sec:authentication="name">U</span>
-                </div>
-                <div>
-                    <div style="font-weight: 600; font-size: 0.9rem;" sec:authentication="name">Username</div>
-                    <div style="font-size: 0.7rem; color: #999; text-transform: capitalize;" sec:authentication="authorities">Role</div>
-                </div>
-                <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: 0.8rem;"></i>
-            </div>
-        </div>
-    </div>
+<!--            &lt;!&ndash;            <div class="search-bar">&ndash;&gt;-->
+<!--            &lt;!&ndash;                <i class="fas fa-search"></i>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <input type="text" placeholder="Search students, teachers, classes...">&ndash;&gt;-->
+<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--        </div>-->
+
+<!--        <div class="header-right">-->
+<!--            &lt;!&ndash;            <button class="notification-btn">&ndash;&gt;-->
+<!--            &lt;!&ndash;                <i class="fas fa-bell"></i>&ndash;&gt;-->
+<!--            &lt;!&ndash;                <span class="notification-badge">3</span>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </button>&ndash;&gt;-->
+
+<!--            <div class="user-info" onclick="toggleUserDropdown()">-->
+<!--                <div class="user-avatar">-->
+<!--                    <span sec:authentication="name">U</span>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <div style="font-weight: 600; font-size: 0.9rem;" sec:authentication="name">Username</div>-->
+<!--                    <div style="font-size: 0.7rem; color: #999; text-transform: capitalize;"-->
+<!--                         sec:authentication="authorities">Role-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: 0.8rem;"></i>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
     <!-- Content Area -->
     <div class="content-area">
@@ -589,15 +591,19 @@
 </div>
 
 <!-- User Dropdown Menu (Hidden by default) -->
-<div id="userDropdown" style="display: none; position: absolute; top: 60px; right: 20px; background: white; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); padding: 10px 0; z-index: 1001; min-width: 200px;">
-    <a href="/profile" style="display: block; padding: 10px 20px; color: #333; text-decoration: none; transition: background 0.3s;">
+<div id="userDropdown"
+     style="display: none; position: absolute; top: 60px; right: 20px; background: white; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); padding: 10px 0; z-index: 1001; min-width: 200px;">
+    <a href="/profile"
+       style="display: block; padding: 10px 20px; color: #333; text-decoration: none; transition: background 0.3s;">
         <i class="fas fa-user" style="margin-right: 10px; width: 15px;"></i>Profile
     </a>
-    <a href="/settings" style="display: block; padding: 10px 20px; color: #333; text-decoration: none; transition: background 0.3s;">
+    <a href="/settings"
+       style="display: block; padding: 10px 20px; color: #333; text-decoration: none; transition: background 0.3s;">
         <i class="fas fa-cog" style="margin-right: 10px; width: 15px;"></i>Settings
     </a>
     <hr style="margin: 10px 0; border: none; border-top: 1px solid #eee;">
-    <a href="/logout" style="display: block; padding: 10px 20px; color: #dc3545; text-decoration: none; transition: background 0.3s;">
+    <a href="/logout"
+       style="display: block; padding: 10px 20px; color: #dc3545; text-decoration: none; transition: background 0.3s;">
         <i class="fas fa-sign-out-alt" style="margin-right: 10px; width: 15px;"></i>Logout
     </a>
 </div>
@@ -605,7 +611,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     // Toggle Sidebar
-    document.getElementById('toggle-sidebar').addEventListener('click', function() {
+    document.getElementById('toggle-sidebar').addEventListener('click', function () {
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.getElementById('main-content');
 
@@ -620,7 +626,7 @@
     }
 
     // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         const dropdown = document.getElementById('userDropdown');
         const userInfo = document.querySelector('.user-info');
 
@@ -631,27 +637,27 @@
 
     // Mobile Sidebar Toggle
     if (window.innerWidth <= 768) {
-        document.getElementById('toggle-sidebar').addEventListener('click', function() {
+        document.getElementById('toggle-sidebar').addEventListener('click', function () {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('show');
         });
     }
 
-<!--    // Search Functionality-->
-<!--    document.querySelector('.search-bar input').addEventListener('keypress', function(e) {-->
-<!--        if (e.key === 'Enter') {-->
-<!--            const searchTerm = this.value;-->
-<!--            console.log('Searching for:', searchTerm);-->
-<!--            // Implement search functionality here-->
-<!--        }-->
-<!--    });-->
+    <!--    Search Functionality-->
+    <!--    document.querySelector('.search-bar input').addEventListener('keypress', function(e) {-->
+    <!--        if (e.key === 'Enter') {-->
+    <!--            const searchTerm = this.value;-->
+    <!--            console.log('Searching for:', searchTerm);-->
+    <!--             Implement search functionality here-->
+    <!--        }-->
+    <!--    });-->
 
     // Add hover effects to dropdown items
     document.querySelectorAll('#userDropdown a').forEach(item => {
-        item.addEventListener('mouseenter', function() {
+        item.addEventListener('mouseenter', function () {
             this.style.backgroundColor = '#f8f9fa';
         });
-        item.addEventListener('mouseleave', function() {
+        item.addEventListener('mouseleave', function () {
             this.style.backgroundColor = 'transparent';
         });
     });

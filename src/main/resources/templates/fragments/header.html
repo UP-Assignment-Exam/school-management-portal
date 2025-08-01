@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<th:block th:fragment="header">
+    <!-- Your header content -->
+    <div class="top-header">
+        <div class="header-left">
+            <button class="toggle-btn" id="toggle-sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!--            <div class="search-bar">-->
+            <!--                <i class="fas fa-search"></i>-->
+            <!--                <input type="text" placeholder="Search students, teachers, classes...">-->
+            <!--            </div>-->
+        </div>
+
+        <div class="header-right">
+            <!--            <button class="notification-btn">-->
+            <!--                <i class="fas fa-bell"></i>-->
+            <!--                <span class="notification-badge">3</span>-->
+            <!--            </button>-->
+
+            <div class="user-info" onclick="toggleUserDropdown()">
+                <div class="user-avatar">
+                    <span sec:authentication="name">U</span>
+                </div>
+                <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;" sec:authentication="name">Username</div>
+                    <div style="font-size: 0.7rem; color: #999; text-transform: capitalize;"
+                         sec:authentication="authorities">Role
+                    </div>
+                </div>
+                <i class="fas fa-chevron-down" style="margin-left: 10px; font-size: 0.8rem;"></i>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>
